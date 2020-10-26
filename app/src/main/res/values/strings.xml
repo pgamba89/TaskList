@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TasksToDo</string>
+    <string name="add_word" />
+    <string name="hint_word">Task...</string>
+    <string name="button_save">Add</string>
+    <string name="empty_not_saved">Task not saved because it is empty.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

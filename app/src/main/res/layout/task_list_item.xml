@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.taskstodo.data.Word" />
+
+        <variable
+            name="clickListener"
+            type="com.example.taskstodo.ui.TaskListItemListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/word_title"
+                style="@style/word_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@android:color/holo_orange_light"
+                android:onClick="@{() -> clickListener.onClick(item)}"
+                android:text="@{item.word}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
