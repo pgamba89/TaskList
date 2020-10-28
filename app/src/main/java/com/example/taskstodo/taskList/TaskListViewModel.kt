@@ -15,16 +15,6 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
     private val repository: TaskRepository
     val allTasks: LiveData<List<Task>>
 
-/*
-    private val _navigateToTaskAdd = MutableLiveData<Long>()
-    val navigateToTaskAdd
-        get() = _navigateToTaskAdd
-
-    fun onTaskAddNavigated() {
-        _navigateToTaskAdd.value = null
-    }
-*/
-
     init {
         val tasksDao = TaskRoomDatabase.getDatabase(application, viewModelScope).taskDao()
         repository = TaskRepository(tasksDao)
@@ -33,5 +23,9 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
 
     fun insert(task: Task) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(task)
+    }
+
+    fun delete (task: Task) = viewModelScope.launch(Dispatchers.IO){
+        repository.delete(task)
     }
 }

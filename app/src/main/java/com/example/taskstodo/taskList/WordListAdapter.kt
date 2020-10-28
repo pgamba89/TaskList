@@ -19,6 +19,10 @@ class WordListAdapter(val clickListener: TaskListItemListener) :
         return ViewHolder.from(parent)
     }
 
+    fun getWordAtPosition(position: Int): Task? {
+        return getItem(position)
+    }
+
     class ViewHolder private constructor(val binding: TaskListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

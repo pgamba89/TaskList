@@ -11,10 +11,13 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstodo.R
 import com.example.taskstodo.data.Task
 import com.example.taskstodo.databinding.FragmentTaskListBinding
+import kotlinx.coroutines.CoroutineScope
 
 class TaskListFragment : Fragment() {
 
@@ -55,10 +58,22 @@ class TaskListFragment : Fragment() {
             words?.let { adapter.submitList(it) }
         })
 
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val task: Task? = adapter.getWordAtPosition(position)
+                task?.let {
+                    taskListViewModel.delete(it)
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerviewlist)
+
         binding.fab.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_taskAddFragment)
         }
-
         return binding.root
     }
 }
