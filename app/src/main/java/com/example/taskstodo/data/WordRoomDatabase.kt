@@ -14,8 +14,6 @@ abstract class WordRoomDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao
 
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
         @Volatile
         private var INSTANCE: WordRoomDatabase? = null
 
@@ -50,13 +48,12 @@ abstract class WordRoomDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(wordDao: WordDao) {
-            // Delete all content here.
             wordDao.deleteAll()
 
             // Add sample words.
-            var word = Word(1,"Hello")
+            var word = Word("Hello")
             wordDao.insert(word)
-            word = Word(2,"World!")
+            word = Word("World!")
             wordDao.insert(word)
         }
     }

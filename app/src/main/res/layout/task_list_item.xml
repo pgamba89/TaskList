@@ -11,7 +11,7 @@
 
         <variable
             name="clickListener"
-            type="com.example.taskstodo.ui.TaskListItemListener" />
+            type="com.example.taskstodo.taskList.TaskListItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

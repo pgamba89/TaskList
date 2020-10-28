@@ -1,4 +1,4 @@
-package com.example.taskstodo.ui
+package com.example.taskstodo.taskList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
