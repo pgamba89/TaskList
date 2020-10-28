@@ -48,12 +48,12 @@ abstract class TaskRoomDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(taskDao: TaskDao) {
-            taskDao.deleteAll()
-
-            var task = Task("Hello")
-            taskDao.insert(task)
-            task = Task("World!")
-            taskDao.insert(task)
+            if (taskDao.getList().isEmpty()) {
+                var task = Task("Hello")
+                taskDao.insert(task)
+                task = Task("World!")
+                taskDao.insert(task)
+            }
         }
     }
 }

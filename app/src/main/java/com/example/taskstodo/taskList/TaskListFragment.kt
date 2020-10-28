@@ -44,7 +44,6 @@ class TaskListFragment : Fragment() {
 
         val adapter = WordListAdapter(TaskListItemListener { id ->
             Toast.makeText(activity, "${id}", Toast.LENGTH_LONG).show()
-            // wordViewModel.onSleepNightClicked(id)
             view?.findNavController()?.navigate(R.id.action_taskListFragment_to_taskDetailFragment)
         })
 

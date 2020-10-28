@@ -8,10 +8,10 @@
             type="com.example.taskstodo.taskDetail.TaskDetailModelView" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".taskDetail.TaskDetailFragment">
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>
