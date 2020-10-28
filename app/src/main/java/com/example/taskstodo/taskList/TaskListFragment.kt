@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskstodo.R
-import com.example.taskstodo.data.Word
+import com.example.taskstodo.data.Task
 import com.example.taskstodo.databinding.FragmentTaskListBinding
 
 class TaskListFragment : Fragment() {
@@ -28,6 +28,13 @@ class TaskListFragment : Fragment() {
         val binding: FragmentTaskListBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_task_list, container, false
         )
+
+        setFragmentResultListener("requestKey") { key, bundle ->
+            bundle.getString("bundleKey")?.let {
+                val word = Task(it)
+                taskListViewModel.insert(word)
+            }
+        }
 
         // val args = TaskListFragmentArgs.fromBundle(requireArguments())
 
@@ -45,19 +52,12 @@ class TaskListFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewlist.adapter = adapter
 
-        taskListViewModel.allWords.observe(viewLifecycleOwner, Observer { words ->
+        taskListViewModel.allTasks.observe(viewLifecycleOwner, Observer { words ->
             words?.let { adapter.submitList(it) }
         })
 
         binding.fab.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_taskAddFragment)
-        }
-
-        setFragmentResultListener("requestKey") { key, bundle ->
-            bundle.getString("bundleKey")?.let {
-                val word = Word(it)
-                taskListViewModel.insert(word)
-            }
         }
 
         return binding.root

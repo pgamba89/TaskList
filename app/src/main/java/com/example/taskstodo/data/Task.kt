@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.lang.reflect.Constructor
 
-@Entity(tableName = "word_table")
-data class Word(@ColumnInfo(name = "word") val word: String){
+@Entity(tableName = "task_table")
+data class Task(@ColumnInfo(name = "task") val task: String){
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
 }

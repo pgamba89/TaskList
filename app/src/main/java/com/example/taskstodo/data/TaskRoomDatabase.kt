@@ -8,16 +8,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Word::class), version = 1, exportSchema = false)
-abstract class WordRoomDatabase : RoomDatabase() {
+@Database(entities = arrayOf(Task::class), version = 1, exportSchema = false)
+abstract class TaskRoomDatabase : RoomDatabase() {
 
-    abstract fun wordDao(): WordDao
+    abstract fun taskDao(): TaskDao
 
     companion object {
         @Volatile
-        private var INSTANCE: WordRoomDatabase? = null
+        private var INSTANCE: TaskRoomDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): WordRoomDatabase {
+        fun getDatabase(context: Context, scope: CoroutineScope): TaskRoomDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -25,8 +25,8 @@ abstract class WordRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    WordRoomDatabase::class.java,
-                    "word_database"
+                    TaskRoomDatabase::class.java,
+                    "task_database"
                 )
                 .addCallback(WordDatabaseCallback(scope))
                 .build()
@@ -42,19 +42,18 @@ abstract class WordRoomDatabase : RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.wordDao())
+                    populateDatabase(database.taskDao())
                 }
             }
         }
 
-        suspend fun populateDatabase(wordDao: WordDao) {
-            wordDao.deleteAll()
+        suspend fun populateDatabase(taskDao: TaskDao) {
+            taskDao.deleteAll()
 
-            // Add sample words.
-            var word = Word("Hello")
-            wordDao.insert(word)
-            word = Word("World!")
-            wordDao.insert(word)
+            var task = Task("Hello")
+            taskDao.insert(task)
+            task = Task("World!")
+            taskDao.insert(task)
         }
     }
 }
