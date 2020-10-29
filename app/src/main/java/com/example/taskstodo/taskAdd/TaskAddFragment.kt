@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResult
@@ -32,7 +33,7 @@ class TaskAddFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener { view: View ->
             if (TextUtils.isEmpty(binding.editWord.text)) {
-                view.findNavController().navigate(R.id.action_taskAddFragment_to_taskListFragment)
+                Toast.makeText(activity, R.string.empty_not_saved, Toast.LENGTH_LONG).show()
             } else {
                 val task = binding.editWord.text.toString()
                 setFragmentResult("requestKey", bundleOf("bundleKey" to task))

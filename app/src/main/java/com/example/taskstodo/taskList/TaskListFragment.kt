@@ -39,15 +39,13 @@ class TaskListFragment : Fragment() {
             }
         }
 
-        // val args = TaskListFragmentArgs.fromBundle(requireArguments())
-
         taskListViewModel = ViewModelProvider(this).get(TaskListViewModel::class.java)
         binding.viewModel = taskListViewModel
         binding.lifecycleOwner = this
 
         val adapter = WordListAdapter(TaskListItemListener { id ->
-            Toast.makeText(activity, "${id}", Toast.LENGTH_LONG).show()
-            view?.findNavController()?.navigate(R.id.action_taskListFragment_to_taskDetailFragment)
+            //Toast.makeText(activity, "${id}", Toast.LENGTH_LONG).show()
+            view?.findNavController()?.navigate(TaskListFragmentDirections.actionTaskListFragmentToTaskDetailFragment(id))
         })
 
         binding.recyclerviewlist.layoutManager =

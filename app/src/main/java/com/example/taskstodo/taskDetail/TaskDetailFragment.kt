@@ -13,6 +13,7 @@ import com.example.taskstodo.databinding.FragmentTaskDetailBinding
 class TaskDetailFragment : Fragment() {
 
     private lateinit var taskDetailModelView: TaskDetailModelView
+    private lateinit var taskDetailModelViewFactory: TaskDetailModelViewFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,7 +23,11 @@ class TaskDetailFragment : Fragment() {
             inflater, R.layout.fragment_task_detail, container, false
         )
 
-        taskDetailModelView = ViewModelProvider(this).get(TaskDetailModelView::class.java)
+        val args = TaskDetailFragmentArgs.fromBundle(requireArguments())
+
+        taskDetailModelViewFactory = TaskDetailModelViewFactory(args.taskId)
+
+        taskDetailModelView = ViewModelProvider(this, taskDetailModelViewFactory).get(TaskDetailModelView::class.java)
         binding.viewModel = taskDetailModelView
         binding.lifecycleOwner = this
 

@@ -20,7 +20,11 @@
         android:id="@+id/taskDetailFragment"
         android:name="com.example.taskstodo.taskDetail.TaskDetailFragment"
         android:label="fragment_task_detail"
-        tools:layout="@layout/fragment_task_detail" />
+        tools:layout="@layout/fragment_task_detail" >
+        <argument
+            android:name="taskId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/taskAddFragment"
         android:name="com.example.taskstodo.taskAdd.TaskAddFragment"

@@ -1,8 +1,7 @@
 package com.example.taskstodo.taskDetail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 
-class TaskDetailModelView(application: Application) : AndroidViewModel(application) {
+class TaskDetailModelView(private val id: Long = 0L) : ViewModel() {
 
 }
