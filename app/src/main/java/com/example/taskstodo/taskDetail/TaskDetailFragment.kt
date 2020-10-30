@@ -23,11 +23,13 @@ class TaskDetailFragment : Fragment() {
             inflater, R.layout.fragment_task_detail, container, false
         )
 
+        val application = requireNotNull(this.activity).application
         val args = TaskDetailFragmentArgs.fromBundle(requireArguments())
 
-        taskDetailModelViewFactory = TaskDetailModelViewFactory(args.taskId)
+        taskDetailModelViewFactory = TaskDetailModelViewFactory(args.taskId, application)
 
-        taskDetailModelView = ViewModelProvider(this, taskDetailModelViewFactory).get(TaskDetailModelView::class.java)
+        taskDetailModelView =
+            ViewModelProvider(this, taskDetailModelViewFactory).get(TaskDetailModelView::class.java)
         binding.viewModel = taskDetailModelView
         binding.lifecycleOwner = this
 

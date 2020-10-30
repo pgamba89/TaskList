@@ -3,7 +3,6 @@ package com.example.taskstodo.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.lang.reflect.Constructor
 
 @Entity(tableName = "task_table")
 data class Task(@ColumnInfo(name = "task") val task: String){

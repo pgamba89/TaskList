@@ -44,7 +44,6 @@ class TaskListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val adapter = WordListAdapter(TaskListItemListener { id ->
-            //Toast.makeText(activity, "${id}", Toast.LENGTH_LONG).show()
             view?.findNavController()?.navigate(TaskListFragmentDirections.actionTaskListFragmentToTaskDetailFragment(id))
         })
 

@@ -12,6 +12,9 @@ interface TaskDao {
     @Query("SELECT * from task_table LIMIT 1")
     suspend fun getList(): Array<Task>
 
+    @Query("SELECT * from task_table WHERE id = :key")
+    fun getTaskWithId(key: Long): LiveData<Task>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: Task)
 
