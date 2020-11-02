@@ -1,10 +1,8 @@
 package com.example.taskstodo.taskList
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResultListener
@@ -17,11 +15,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstodo.R
 import com.example.taskstodo.data.Task
 import com.example.taskstodo.databinding.FragmentTaskListBinding
-import kotlinx.coroutines.CoroutineScope
 
 class TaskListFragment : Fragment() {
 
     private lateinit var taskListViewModel: TaskListViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.clear_data){
+            taskListViewModel.deleteAll()
+            Toast.makeText(activity, R.string.Erase_All, Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
