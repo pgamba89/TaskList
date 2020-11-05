@@ -28,7 +28,8 @@ abstract class TaskRoomDatabase : RoomDatabase() {
                     TaskRoomDatabase::class.java,
                     "task_database"
                 )
-                .addCallback(WordDatabaseCallback(scope))
+                    .allowMainThreadQueries()
+                    .addCallback(WordDatabaseCallback(scope))
                 .build()
                 INSTANCE = instance
                 return instance

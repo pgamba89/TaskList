@@ -67,6 +67,18 @@ class TaskDaoTest {
     }
 
     @Test
+    fun insertTask_getTaskById() = runBlocking {
+
+        val task = Task("task")
+        taskDao.insert(task)
+
+        val taskId = taskDao.getList()[0].id
+        taskDao.getTaskWithId(taskId).observeOnce {
+            assertEquals(taskId, it.id)
+        }
+    }
+
+    @Test
     fun deleteAll_returnEmptyList() = runBlocking {
         val task = Task("task")
         val task2 = Task("task2")
