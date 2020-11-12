@@ -3,8 +3,9 @@ package com.example.taskstodo.domain
 import androidx.lifecycle.LiveData
 import com.example.taskstodo.data.Task
 import com.example.taskstodo.data.TaskDao
+import javax.inject.Inject
 
-class TaskRepository(private val taskDao: TaskDao) {
+class TaskRepository @Inject constructor(private val taskDao: TaskDao) {
 
     val allTasks: LiveData<List<Task>> = taskDao.getAscTasks()
 

@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstodo.R
 import com.example.taskstodo.data.Task
 import com.example.taskstodo.databinding.FragmentTaskListBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TaskListFragment : Fragment() {
 
-    private lateinit var taskListViewModel: TaskListViewModel
+    @Inject lateinit var taskListViewModel: TaskListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -56,7 +58,7 @@ class TaskListFragment : Fragment() {
             }
         }
 
-        taskListViewModel = ViewModelProvider(this).get(TaskListViewModel::class.java)
+      //  taskListViewModel = ViewModelProvider(this).get(TaskListViewModel::class.java)
         binding.viewModel = taskListViewModel
         binding.lifecycleOwner = this
 

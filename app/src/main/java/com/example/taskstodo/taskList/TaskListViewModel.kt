@@ -9,10 +9,12 @@ import com.example.taskstodo.data.TaskRoomDatabase
 import com.example.taskstodo.domain.TaskRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TaskListViewModel(application: Application) : AndroidViewModel(application) {
+class TaskListViewModel @Inject constructor(
+    application: Application, private var repository: TaskRepository
+) : AndroidViewModel(application) {
 
-    private val repository: TaskRepository
     val allTasks: LiveData<List<Task>>
 
     init {
