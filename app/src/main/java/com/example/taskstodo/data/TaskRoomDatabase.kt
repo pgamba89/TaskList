@@ -1,11 +1,13 @@
 package com.example.taskstodo.data
 
 import android.content.Context
+import android.os.AsyncTask
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(entities = arrayOf(Task::class), version = 1, exportSchema = false)
@@ -17,7 +19,7 @@ abstract class TaskRoomDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: TaskRoomDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): TaskRoomDatabase {
+        fun getDatabase(context: Context): TaskRoomDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -26,10 +28,9 @@ abstract class TaskRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TaskRoomDatabase::class.java,
-                    "task_database"
-                )
+                    "task_database")
                     .allowMainThreadQueries()
-                    .addCallback(WordDatabaseCallback(scope))
+                    .addCallback(WordDatabaseCallback())
                 .build()
                 INSTANCE = instance
                 return instance
@@ -37,18 +38,18 @@ abstract class TaskRoomDatabase : RoomDatabase() {
         }
     }
 
-    private class WordDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
+    private class WordDatabaseCallback() : RoomDatabase.Callback() {
 
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             INSTANCE?.let { database ->
-                scope.launch {
+                CoroutineScope(Dispatchers.IO).launch{
                     populateDatabase(database.taskDao())
                 }
             }
         }
 
-        suspend fun populateDatabase(taskDao: TaskDao) {
+         suspend fun populateDatabase(taskDao: TaskDao) {
             if (taskDao.getList().isEmpty()) {
                 var task = Task("Hello")
                 taskDao.insert(task)

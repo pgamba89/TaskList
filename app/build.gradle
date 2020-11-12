@@ -22,6 +22,10 @@ android {
         enabled = true
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -68,8 +72,10 @@ dependencies {
     // Material design
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_jetpack"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_jetpack"
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

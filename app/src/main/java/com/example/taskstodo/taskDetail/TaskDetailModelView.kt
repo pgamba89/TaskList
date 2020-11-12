@@ -14,7 +14,7 @@ class TaskDetailModelView(id: Long = 0L, application: Application) : ViewModel()
     private val task: LiveData<Task>
 
     init {
-        val tasksDao = TaskRoomDatabase.getDatabase(application, viewModelScope).taskDao()
+        val tasksDao = TaskRoomDatabase.getDatabase(application).taskDao()
         repository = TaskRepository(tasksDao)
         task = repository.getTaskById(id)
     }

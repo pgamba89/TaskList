@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -20,8 +21,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TaskAddFragment : Fragment() {
-    @Inject
-    lateinit var modelView: TaskAddModelView
+
+    private val modelView: TaskAddModelView by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,6 +1,7 @@
 package com.example.taskstodo.di
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.taskstodo.data.TaskDao
 import com.example.taskstodo.data.TaskRoomDatabase
@@ -14,23 +15,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object  AppModule {
+object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context) : TaskRoomDatabase{
-        return Room.databaseBuilder(
-            appContext,
-            TaskRoomDatabase::class.java,
-            "logging.db"
-        ).build()
-    }
+    fun provideDatabase(@ApplicationContext appContext: Context) =
+        TaskRoomDatabase.getDatabase(appContext)
 
     @Singleton
     @Provides
-    fun provideTaskDao(database: TaskRoomDatabase) : TaskDao {
-        return database.taskDao()
-    }
+    fun provideTaskDao(database: TaskRoomDatabase) = database.taskDao()
 
     @Singleton
     @Provides

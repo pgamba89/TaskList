@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,12 +16,11 @@ import com.example.taskstodo.R
 import com.example.taskstodo.data.Task
 import com.example.taskstodo.databinding.FragmentTaskListBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TaskListFragment : Fragment() {
 
-    @Inject lateinit var taskListViewModel: TaskListViewModel
+    private val viewModel: TaskListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -36,7 +36,7 @@ class TaskListFragment : Fragment() {
         val id = item.itemId
 
         if (id == R.id.clear_data){
-            taskListViewModel.deleteAll()
+            viewModel.deleteAll()
             Toast.makeText(activity, R.string.Erase_All, Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
@@ -54,12 +54,11 @@ class TaskListFragment : Fragment() {
         setFragmentResultListener("requestKey") { key, bundle ->
             bundle.getString("bundleKey")?.let {
                 val word = Task(it)
-                taskListViewModel.insert(word)
+                viewModel.insert(word)
             }
         }
 
-      //  taskListViewModel = ViewModelProvider(this).get(TaskListViewModel::class.java)
-        binding.viewModel = taskListViewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         val adapter = WordListAdapter(TaskListItemListener { id ->
@@ -70,7 +69,7 @@ class TaskListFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewlist.adapter = adapter
 
-        taskListViewModel.allTasks.observe(viewLifecycleOwner, Observer { words ->
+        viewModel.allTasks.observe(viewLifecycleOwner, Observer { words ->
             words?.let { adapter.submitList(it) }
         })
 
@@ -79,7 +78,7 @@ class TaskListFragment : Fragment() {
                 val position = viewHolder.adapterPosition
                 val task: Task? = adapter.getWordAtPosition(position)
                 task?.let {
-                    taskListViewModel.delete(it)
+                    viewModel.delete(it)
                 }
             }
         }

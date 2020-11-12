@@ -9,10 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskstodo.R
 import com.example.taskstodo.databinding.FragmentTaskDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 class TaskDetailFragment : Fragment() {
 
-    private lateinit var taskDetailModelView: TaskDetailModelView
+    private lateinit var modelView: TaskDetailModelView
     private lateinit var taskDetailModelViewFactory: TaskDetailModelViewFactory
 
     override fun onCreateView(
@@ -28,9 +29,9 @@ class TaskDetailFragment : Fragment() {
 
         taskDetailModelViewFactory = TaskDetailModelViewFactory(args.taskId, application)
 
-        taskDetailModelView =
+        modelView =
             ViewModelProvider(this, taskDetailModelViewFactory).get(TaskDetailModelView::class.java)
-        binding.viewModel = taskDetailModelView
+        binding.viewModel = modelView
         binding.lifecycleOwner = this
 
         return binding.root
