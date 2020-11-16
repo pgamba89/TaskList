@@ -1,78 +1,52 @@
 package com.example.taskstodo.taskList
 
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.lifecycle.MutableLiveData
 import com.example.taskstodo.data.Task
-import com.example.taskstodo.data.TaskDao
-import com.example.taskstodo.data.observeOnce
 import com.example.taskstodo.domain.TaskRepository
 import junit.framework.Assert.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
-
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import org.mockito.Spy
 
-
-@ExperimentalCoroutinesApi
+@RunWith(JUnit4::class)
 class TaskListViewModelTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var taskDao: TaskDao
-
     private lateinit var repository: TaskRepository
 
-    private lateinit var modelView: TaskListViewModel
+    lateinit var modelView: TaskListViewModel
+
+    @Spy
+    private val taskListLiveData: MutableLiveData<List<Task>> = MutableLiveData()
+
+    private val tasks = listOf(
+        Task("Hello"),
+        Task("Hi")
+    )
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-
-        repository = TaskRepository(taskDao)
-        modelView = TaskListViewModel(ApplicationProvider.getApplicationContext())
-
+        `when`(repository.allTasks).thenReturn(taskListLiveData)
+        modelView = TaskListViewModel(repository)
     }
 
     @Test
-    @Throws(Exception::class)
-    fun testGetAllTasks_When_Null() {
-        Mockito.`when`(repository.allTasks).thenReturn(null)
-        assertNotNull(modelView.allTasks)
+    fun getAllTasks() = runBlocking {
+        taskListLiveData.value = tasks
+        modelView.allTasks.observeForever { }
 
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun testGetAllTasks() = runBlocking {
-
-        modelView.allTasks.observeOnce {
-            assertEquals(modelView.allTasks.value, it)
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun insertTask_getAllTasks() = runBlocking {
-        val task = Task("task")
-
-        launch(Dispatchers.IO) {
-            modelView.insert(task)
-        }
-
-        modelView.allTasks.observeOnce {
-            assertEquals("task", it[2].task)
-        }
+        assertEquals("Hello", modelView.allTasks.value?.get(0)?.task)
     }
 }
