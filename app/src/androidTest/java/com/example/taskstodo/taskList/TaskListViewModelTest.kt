@@ -25,10 +25,10 @@ class TaskListViewModelTest {
     @Mock
     private lateinit var repository: TaskRepository
 
-    lateinit var modelView: TaskListViewModel
-
     @Spy
     private val taskListLiveData: MutableLiveData<List<Task>> = MutableLiveData()
+
+    lateinit var modelView: TaskListViewModel
 
     private val tasks = listOf(
         Task("Hello"),
